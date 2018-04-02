@@ -8,7 +8,7 @@ let chordNames =         ["A#", "Gb", "E", "Bb", "A#m", "Gbm", "G#m", "F#m", "Fm
 let expectedChordNames = ["A#", "Gb", "E", "Bb", "A#m", "Gbm", "G#m", "F#m", "Fm", "Em", "Bm", "C"];
 
 let tester = new Tester();
-tester.constructorTest(Note, noteNames, "getName", expectedNoteNames);
-tester.constructorTest(Chord, chordNames, "getName", expectedChordNames);
+tester.constructorTest("Note", "getName", noteNames, expectedNoteNames);
+tester.constructorTest("Chord", "getName", chordNames, expectedChordNames);
 
 

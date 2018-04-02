@@ -1,4 +1,5 @@
 import {Note} from "../src/Entities/Note";
+import {Chord} from "../src/Entities/Chord";
 
 let resultArray = [];
 let exceptionIndexes = [];
@@ -6,14 +7,14 @@ let _real, _expected = [];
 
 export default class NoteTester {
     constructor() {
-        this.constructorTest = (className, constructorParams, methodToTest, expectation) => {
+        this.constructorTest = (className, methodToTest, constructorParams, expectation) => {
             if (constructorParams instanceof Array && expectation instanceof Array && constructorParams.length === expectation.length) {
                 _real = constructorParams;
                 _expected = expectation;
                 for (let i = 0; i < constructorParams.length; i++) {
                     let currentClass = false;
                     try {
-                        currentClass = new className(constructorParams[i]);
+                        currentClass = new testClassesList[className](constructorParams[i]);
                         let currentMethod = testMethodsList[methodToTest];
                         let outputOfMethod = currentMethod(currentClass);
                         if (expectation[i] === outputOfMethod) {
@@ -33,7 +34,7 @@ export default class NoteTester {
             } else {
                 throw new Error("ERROR! Invalid arguments in Tester");
             }
-            outputMessage(new className().constructor.name);
+            outputMessage("");
         }
     }
 }
@@ -44,6 +45,11 @@ const
             return instance.getName();
         }
     };
+
+const testClassesList = {
+    "Note": Note,
+    "Chord": Chord
+};
 
 function
 
