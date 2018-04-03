@@ -9,6 +9,7 @@ export default class NoteTester {
     constructor() {
         let _globalTestCounter = 0;
         let _completedTests = 0;
+        let _className = "";
         this.constructorTest = (className, methodToTest, constructorParams, expectation) => {
             if (constructorParams instanceof Array && expectation instanceof Array && constructorParams.length === expectation.length) {
                 _real = constructorParams;
@@ -16,7 +17,8 @@ export default class NoteTester {
                 for (let i = 0; i < constructorParams.length; i++) {
                     let currentClass = false;
                     try {
-                        currentClass = new testClassesList[className](constructorParams[i]);
+                        currentClass = className(constructorParams[i]);
+                        _className = currentClass.constructor.name;
                         let outputOfMethod = methodToTest(currentClass);
                         if (expectation[i] === outputOfMethod) {
                             resultArray.push("PASSED");
@@ -35,7 +37,7 @@ export default class NoteTester {
             } else {
                 throw new Error("ERROR! Invalid arguments in Tester");
             }
-            _completedTests += outputMessage("");
+            _completedTests += outputMessage(_className);
             _globalTestCounter++;
         };
         this.showGlobalResult = () => {
@@ -43,10 +45,6 @@ export default class NoteTester {
         }
     }
 }
-const testClassesList = {
-    "Note": Note,
-    "Chord": Chord
-};
 
 function outputMessage(className) {
     let longDivider = "--------------------------------------------------------------------------------------";

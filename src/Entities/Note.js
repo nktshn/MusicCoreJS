@@ -21,9 +21,7 @@ class Note {
         this.getName = () => _name;
         this.getAltName = () => _altName;
         this.swapToAltName = () => {
-            let t = _name;
-            _name = _altName;
-            _altName = t;
+            [_name] = [_altName];
         };
         this.usingInChords = () => getChordsWhereNoteUses(_name);
         this.getFunctionInChord = chord => {
