@@ -1,6 +1,3 @@
-import {Note} from "../src/Entities/Note";
-import {Chord} from "../src/Entities/Chord";
-
 let resultArray = [];
 let exceptionIndexes = [];
 let _real, _expected = [];
@@ -17,7 +14,9 @@ export default class NoteTester {
                 for (let i = 0; i < constructorParams.length; i++) {
                     let currentClass = false;
                     try {
-                        currentClass = className(constructorParams[i]);
+                        debugger;
+                        currentClass = this.construct(className, constructorParams[i]);
+                        //currentClass = createClass(constructorParams[i]);
                         _className = currentClass.constructor.name;
                         let outputOfMethod = methodToTest(currentClass);
                         if (expectation[i] === outputOfMethod) {
@@ -26,6 +25,7 @@ export default class NoteTester {
                             resultArray.push("FAILED");
                         }
                     } catch (e) {
+                        //console.log(e);
                         exceptionIndexes.push(i);
                         if (!currentClass && expectation[i] === false) {
                             resultArray.push("PASSED");
@@ -42,6 +42,14 @@ export default class NoteTester {
         };
         this.showGlobalResult = () => {
             console.log(`[TESTER]: ${_completedTests}/${_globalTestCounter} PASSED`);
+        };
+        //idk how does it work (-_-)
+        this.construct = (constructor, args) => {
+            function F() {
+                return constructor.apply(this, args);
+            }
+            F.prototype = constructor.prototype;
+            return new F();
         }
     }
 }
