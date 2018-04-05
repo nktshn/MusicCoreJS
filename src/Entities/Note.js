@@ -21,16 +21,20 @@ class Note {
         this.getName = () => _name;
         this.getAltName = () => _altName;
         this.swapToAltName = () => {
-            [_name] = [_altName];
+            [_name, _altName] = [_altName, _name];
         };
         this.usingInChords = () => getChordsWhereNoteUses(_name);
         this.getFunctionInChord = chord => {
             if (!(chord instanceof Chord)) {
                 throw new Error("ERROR! Invalid chord object");
             }
-            let notes = chord.getNotes();
+            let notesNames = chord.getNotes();
+            let notes = [];
+            notesNames.forEach(e => {
+               notes.push(new Note(e));
+            });
             for (let i = 0; i < notes.length; i++) {
-                if (_name === notes[i].getName()) {
+                if (_name === notes[i].getName() || _name === notes[i].getAltName()) {
                     return Theory.notesFunctionsInChord[i];
                 }
             }
@@ -67,19 +71,23 @@ function getAltName(name) {
 
 //returns array of chords that contains the note
 function getChordsWhereNoteUses(_name) {
-    let usesChords = [];
+    let usesChordsNames = [];
     for (let val in Theory.globalIndexesOfChords) {
         if (Theory.globalIndexesOfChords.hasOwnProperty(val)) {
             let chord = new Chord(val);
-            let notes = chord.getNotes();
+            let notesNames = chord.getNotes();
+            let notes = [];
+            notesNames.forEach(e => {
+                notes.push(new Note(e));
+            });
             notes.forEach(elem => {
-                if (elem.getName() === _name) {
-                    usesChords.push(chord);
+                if ((elem.getName() === _name || elem.getAltName() === _name) && !usesChordsNames.includes(chord.getAltName())) {
+                    usesChordsNames.push(chord.getName());
                 }
             })
         }
     }
-    return usesChords;
+    return usesChordsNames;
 }
 
 export {Note};

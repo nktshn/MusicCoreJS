@@ -68,7 +68,7 @@ function getNotes(_globalIndex) {
         if (notesIndexes[i] > 11) {
             notesIndexes[i] -= 12;
         }
-        res.push(new Note(getKeyByValue(notesIndexes[i], Theory.globalIndexesOfNotes)));
+        res.push(new Note(getKeyByValue(notesIndexes[i], Theory.globalIndexesOfNotes)).getName());
     }
     return res;
 }
