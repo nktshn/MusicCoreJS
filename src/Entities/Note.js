@@ -72,8 +72,8 @@ function getAltName(name) {
 //returns array of chords that contains the note
 function getChordsWhereNoteUses(_name) {
     let usesChordsNames = [];
-    for (let val in Theory.globalIndexesOfChords) {
-        if (Theory.globalIndexesOfChords.hasOwnProperty(val)) {
+    for (let val in Theory.chordsSharpedOnly) {
+        if (Theory.chordsSharpedOnly.hasOwnProperty(val)) {
             let chord = new Chord(val);
             let notesNames = chord.getNotes();
             let notes = [];
